@@ -1,14 +1,19 @@
 import 'package:sqflite/sqflite.dart';
 import './database_model.dart';
-import './storage.dart';
 
 class Dog extends DatabaseModel {
   String name;
   int age;
 
   String table = 'dogs';
+
+  // sqflite dependencies
   ConflictAlgorithm _insertConflictAlgorithm = ConflictAlgorithm.ignore;
   ConflictAlgorithm get insertConflictAlgorithm => _insertConflictAlgorithm;
+
+  // sembast dependencies
+  List<String> _uniqueConstraints = ['name'];
+  List<String> get uniqueConstraints => _uniqueConstraints;
 
   Dog({this.name, this.age});
 
@@ -21,12 +26,6 @@ class Dog extends DatabaseModel {
     };
   }
   Dog fromMap(Map<String, dynamic> map) {
-    id = map['id'];
-    name = map['name'];
-    age = map['age'];
-    return this;
-  }
-  Dog newFromMap(Map<String, dynamic> map) {
     Dog dog = Dog(
       name: map['name'],
       age: map['age']
@@ -41,7 +40,7 @@ class Dog extends DatabaseModel {
     return List<Dog>.from(list);
   }
   Future<Dog> instanceFactory(DatabaseModel model) async {
-    return this.newFromMap(model.toMap());
+    return this.fromMap(model.toMap());
   }
 
   /// Seed the [Database]'s dog table with starter data

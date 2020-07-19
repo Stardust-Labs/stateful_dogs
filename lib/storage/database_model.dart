@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 import 'package:sqflite/sqflite.dart';
-import './storage.dart';
+import 'storage_sembast.dart';
 
 abstract class DatabaseModel {
   int _id;
@@ -10,13 +10,13 @@ abstract class DatabaseModel {
 
   /// Getters must be implemented with private property
   String get table;
+  List<String> get uniqueConstraints;
   ConflictAlgorithm get insertConflictAlgorithm;
 
   /// Descendants must implement a way to convert from Storage maps to
   /// an instance of the model and vice versa
   Map<String, dynamic> toMap();
   DatabaseModel fromMap(Map<String, dynamic> map);
-  DatabaseModel newFromMap(Map<String, dynamic> map);
 
   /// Descendants must implement a factory to convert from
   /// DatabaseModel instances to their own type

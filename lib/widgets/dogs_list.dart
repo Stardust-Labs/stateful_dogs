@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../storage/storage.dart';
+import '../storage/storage_sqflite.dart';
 import '../models/app_models.dart';
 
 /// Home page, displays [Dog] list

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
-import '../storage/storage.dart';
+import '../storage/storage_sqflite.dart';
 
 /// This mantains the app state for [Dogs]
 class DogModel extends Model {
@@ -12,6 +12,7 @@ class DogModel extends Model {
   void addDog(name, age) async {
     Dog dog = Dog(name: name, age: age);
     await dog.save();
+    if (dog.id == null) return;
     dogs.add(dog);
     notifyListeners();
   }

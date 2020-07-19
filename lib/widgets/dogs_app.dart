@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 import './dogs_list.dart';
-import '../storage/storage.dart';
+import '../storage/storage_sqflite.dart';
 import '../models/app_models.dart';
 
 /// Root [Widget] for the application
