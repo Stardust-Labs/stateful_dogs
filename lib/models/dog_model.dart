@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
-import '../storage/storage_sqflite.dart';
+import '../storage/dog.dart';
 
 /// This mantains the app state for [Dogs]
 class DogModel extends Model {

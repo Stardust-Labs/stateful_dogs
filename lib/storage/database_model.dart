@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 import 'package:sqflite/sqflite.dart';
-import 'storage_sembast.dart';
+import './app_storage.dart';
 
 abstract class DatabaseModel {
   int _id;
@@ -48,18 +48,18 @@ abstract class DatabaseModel {
   }
 
   /// Wrapper for the [Storage] where method
-  Future<List<DatabaseModel>> where(List<String> columns, List<dynamic> args) async {
-    return listFactory(await Storage.where(this, columns, args));
+  Future<List<DatabaseModel>> where(Map<String, dynamic> args) async {
+    return listFactory(await Storage.where(this, args));
   }
 
   /// Wrapper for the [Storage] firstWhere method
-  Future<DatabaseModel> firstWhere(List<String> columns, List<dynamic> args) async {
-    return instanceFactory(await Storage.firstWhere(this, columns, args));
+  Future<DatabaseModel> firstWhere(Map<String, dynamic> args) async {
+    return instanceFactory(await Storage.firstWhere(this, args));
   }
 
   /// Wrapper for the [Storage] lastWhere method
-  Future<DatabaseModel> lastWhere(List<String> columns, List<dynamic> args) async {
-    return instanceFactory(await Storage.lastWhere(this, columns, args));
+  Future<DatabaseModel> lastWhere(Map<String, dynamic> args) async {
+    return instanceFactory(await Storage.lastWhere(this, args));
   }
 
   /// Wrapper for the [Storage] all method

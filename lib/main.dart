@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'storage/storage_sqflite.dart';
+import './storage/app_storage.dart';
 import './widgets/app_widgets.dart';
 
 main() async {
