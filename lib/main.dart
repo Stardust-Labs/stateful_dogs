@@ -6,11 +6,10 @@ import './widgets/app_widgets.dart';
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  Storage storage = Storage();
-  await storage.init();
+  await Storage.init();
 
-  await Dog.seed(storage.database);
+  await Dog().seed();
   
-  List<Dog> dogs = await Dog.all(storage.database);
-  runApp(DogsApp(dogs: dogs, storage: storage));
+  List<Dog> dogs = await Dog().all();
+  runApp(DogsApp(dogs: dogs));
 }

@@ -15,13 +15,10 @@ class DogsApp extends StatelessWidget {
   Widget build (BuildContext context) {
     return ScopedModel<DogModel> (
       model: DogModel(dogs: dogs),
-      child: ScopedModel<StorageModel> (
-        model: StorageModel(storage: storage),
-        child: MaterialApp(
+      child: MaterialApp(
           title: 'Dogs Database App',
           home: DogsList()
         )
-      )
     );
   }
 }

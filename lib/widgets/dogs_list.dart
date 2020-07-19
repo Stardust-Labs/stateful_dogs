@@ -28,7 +28,7 @@ class DogsList extends StatelessWidget {
     return ListTile(
       contentPadding: EdgeInsets.all(16.00),
       title: Text(
-        '${dog.name}, age ${dog.age}',
+        '${dog.id}: ${dog.name}, age ${dog.age}',
         style: TextStyle(fontSize: 18)
       ),
       leading: FaIcon(
@@ -41,7 +41,6 @@ class DogsList extends StatelessWidget {
 
   Future<void> _promptDelete(BuildContext context, id) async {
     DogModel dogModel = DogModel.of(context);
-    StorageModel storageModel = StorageModel.of(context);
     Dog dog = dogModel.dogs[dogModel.dogs.indexWhere((dog) => dog.id == id)];
 
     return await showDialog<void>(
@@ -61,7 +60,7 @@ class DogsList extends StatelessWidget {
             FlatButton(
               child: Text('Do it.'),
               onPressed: () {
-                dogModel.slaughterDog(storageModel.storage, id);
+                dogModel.slaughterDog(dog);
                 Navigator.of(context).pop();
               }
             )
@@ -75,7 +74,6 @@ class DogsList extends StatelessWidget {
     int age;
     String name;
     DogModel model = DogModel.of(context);
-    StorageModel storage = StorageModel.of(context);
 
     var ageController = TextEditingController();
     var nameController = TextEditingController();
@@ -117,9 +115,7 @@ class DogsList extends StatelessWidget {
               onPressed: () {
                 age = int.parse(ageController.text);
                 name = nameController.text.trim();
-                print(age);
-                print(name);
-                model.addDog(name, age, storage);
+                model.addDog(name, age);
                 Navigator.of(context).pop();
               }
             )

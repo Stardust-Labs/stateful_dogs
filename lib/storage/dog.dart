@@ -1,11 +1,16 @@
 import 'package:sqflite/sqflite.dart';
+import './database_model.dart';
+import './storage.dart';
 
-class Dog {
-  final int id;
-  final String name;
-  final int age;
+class Dog extends DatabaseModel {
+  String name;
+  int age;
 
-  Dog({this.id, this.name, this.age});
+  String table = 'dogs';
+  ConflictAlgorithm _insertConflictAlgorithm = ConflictAlgorithm.ignore;
+  ConflictAlgorithm get insertConflictAlgorithm => _insertConflictAlgorithm;
+
+  Dog({this.name, this.age});
 
   /// Covert the [Dog] to a [Map] for database interactions.
   Map<String, dynamic> toMap() {
@@ -15,38 +20,39 @@ class Dog {
       'age': age
     };
   }
-
-  /// Insert the [Dog] into a given [Database]
-  Future<void> insert(Database db) async {
-    await db.insert(
-      'dogs',
-      toMap(),
-      conflictAlgorithm: ConflictAlgorithm.replace,
+  Dog fromMap(Map<String, dynamic> map) {
+    id = map['id'];
+    name = map['name'];
+    age = map['age'];
+    return this;
+  }
+  Dog newFromMap(Map<String, dynamic> map) {
+    Dog dog = Dog(
+      name: map['name'],
+      age: map['age']
     );
+
+    dog.id = map['id'];
+
+    return dog;
   }
 
-  /// Get all entries from the [Dog] class's table
-  static Future<List<Dog>> all(Database db) async {
-    final List<Map<String, dynamic>> maps = await db.query('dogs');
-    return List.generate(maps.length, (index) {
-      return Dog(id: maps[index]['id'], name: maps[index]['name'], age: maps[index]['age']);
-    });
+  Future<List<Dog>> listFactory(List<DatabaseModel> list) async {
+    return List<Dog>.from(list);
   }
-
-  /// Delete the [Dog] with the given [id] from the given [Database]
-  static void delete(Database db, int id) {
-    db.delete('dogs', where: 'id = ?', whereArgs: [id]);
+  Future<Dog> instanceFactory(DatabaseModel model) async {
+    return this.newFromMap(model.toMap());
   }
 
   /// Seed the [Database]'s dog table with starter data
-  static Future<void> seed(db) async {
-    Dog dog1 = Dog(id: 1, name: 'Mac', age: 15);
-    Dog dog2 = Dog(id: 2, name: 'Chica', age: 10);
-    Dog dog3 = Dog(id: 3, name: 'Buster', age: 12);
-    Dog dog4 = Dog(id: 4, name: 'Bailey', age: 8);
-    await dog1.insert(db);
-    await dog2.insert(db);
-    await dog3.insert(db);
-    await dog4.insert(db);
+  Future<void> seed() async {
+    Dog dog1 = Dog(name: 'Mac', age: 15);
+    Dog dog2 = Dog(name: 'Chica', age: 10);
+    Dog dog3 = Dog(name: 'Buster', age: 12);
+    Dog dog4 = Dog(name: 'Bailey', age: 8);
+    await dog1.save();
+    await dog2.save();
+    await dog3.save();
+    await dog4.save();
   }
 }

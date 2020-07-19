@@ -9,16 +9,16 @@ class DogModel extends Model {
 
   static DogModel of (BuildContext context) => ScopedModel.of<DogModel>(context);
 
-  void addDog(name, age, storage) {
-    Dog dog = Dog(id: dogs.length + 1, name: name, age: age);
+  void addDog(name, age) async {
+    Dog dog = Dog(name: name, age: age);
+    await dog.save();
     dogs.add(dog);
     notifyListeners();
-    dog.insert(storage.database);
   }
 
-  void slaughterDog(storage, id) {
-    dogs.removeWhere((dog) => dog.id == id);
+  void slaughterDog(Dog deleteDog) {
+    dogs.removeWhere((dog) => dog.id == deleteDog.id);
     notifyListeners();
-    Dog.delete(storage.database, id);
+    deleteDog.delete();
   }
 }
