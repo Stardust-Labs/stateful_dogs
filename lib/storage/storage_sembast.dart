@@ -33,7 +33,7 @@ class StorageSembast extends StorageContract {
     if (dbModel.uniqueConstraints.length > 0) {
       Map<String, dynamic> modelMap = dbModel.toMap();
       Map<String, dynamic> queryArgs = {};
-      dbModel.uniqueConstraints.forEach((constraint) => queryArgs['constraint'] = modelMap['constraint']);
+      dbModel.uniqueConstraints.forEach((constraint) => queryArgs[constraint] = modelMap[constraint]);
       DatabaseModel uniqueCheck = await firstWhere(dbModel, queryArgs);
       if (uniqueCheck != null) {
         return null;
